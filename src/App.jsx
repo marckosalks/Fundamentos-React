@@ -16,9 +16,9 @@ export function App() {
           <Post
             author="Marcos Sales"
             content="Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Aliquam ea neque nobis necessitatibus illo repellendus, perspiciatis, 
-        facilis labore voluptates quaerat error. Dicta facilis mollitia voluptates modi voluptate, 
-        aliquid laborum nostrum salve!"
+            Aliquam ea neque nobis necessitatibus illo repellendus, perspiciatis, 
+            facilis labore voluptates quaerat error. Dicta facilis mollitia voluptates modi voluptate, 
+            aliquid laborum nostrum salve!"
           />
 
           <Post
