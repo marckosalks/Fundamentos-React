@@ -9,3 +9,15 @@
   align-items: flex-start;
 
 }
+
+/*Essa é a forma certa de mexer na responsividade em diplays litros*/
+@media (max-width: 768px){
+  html{
+    /*aqui fizemos uma regra de tres*/
+    font-size: 87.5%;
+  }
+  
+  .wrapper{
+    grid-template-columns: 1fr;
+  }
+}
