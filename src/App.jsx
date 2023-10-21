@@ -3,7 +3,41 @@ import Post from "./components/Post"
 import { Sidebar } from "./components/Sidebar"
 import styles from "./App.module.css"
 import "./global.css"
+
 //se está lendo isso no github funcionou!
+
+const posts = [
+  {
+    id: 1, 
+    author: {
+      avatarUrl: 'https://avatars.githubusercontent.com/u/84982384?v=4',
+      name: 'Marcos Sales',
+      role: 'Frontend Jr'
+    },
+    content: [
+      {type: 'paragraph', content: 'Ola pessoal👀'},
+      {type: 'paragraph', content: 'Esse é o meu ultimo projeto em colaboração com o pessoal da rocketseat! 🚀'},
+      {type: 'link', content: 'marcos.sales/frontend'},
+    ],
+    publisheAt:  new Date('2023-10-21 13:05:01'),
+  }, 
+  {
+    id: 2, 
+    author: {
+      avatarUrl: 'https://avatars.githubusercontent.com/u/46347115?v=4',
+      name: 'Everton Sales',
+      role: 'Analyst'
+    },
+    content: [
+      {type: 'paragraph', content: 'Ola Amantes da tecnologia ! 📱'},
+      {type: 'paragraph', content: 'Mais um grande passo no desenvolvimento ! 🦅'},
+      {type: 'link', content: 'everton.sales/it analyst'},
+    ],
+    publisheAt:  new Date('2023-10-12 17:05:01'),
+  }, 
+
+]
+
 
 export function App() {
   return (
@@ -13,18 +47,14 @@ export function App() {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          <Post
-            author="Marcos Sales"
-            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Aliquam ea neque nobis necessitatibus illo repellendus, perspiciatis, 
-            facilis labore voluptates quaerat error. Dicta facilis mollitia voluptates modi voluptate, 
-            aliquid laborum nostrum salve!"
-          />
-
-          <Post
-            author="Maicão do pão"
-            content="A vontade rir é grande, mas a de chorar é maior!"
-          />
+          {posts.map(post =>
+            <Post
+            author={post.author}
+            content={post.content}
+            publisheAt={post.publisheAt}
+            />
+          )
+          }
         </main>
       </div>
     </div>

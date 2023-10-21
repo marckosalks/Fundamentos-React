@@ -1,23 +1,50 @@
+import { format, formatDistanceToNow } from 'date-fns' 
+import ptBR from 'date-fns/locale/pt-BR'
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./avatar"
+import React from "react"
+import { Link } from 'phosphor-react'
 
-export default function Post() {
+
+
+export default function Post({author, content, publisheAt}) {
+  const publisheAtDateFormatted = format(publisheAt, "d 'de' LLLL 'ás' HH:mm'h'", {
+    locale: ptBR,
+  })
+
+  const publisheAtDateRelativeToNow = formatDistanceToNow(publisheAt, {
+    locale: ptBR,
+    addSuffix: true,
+  })
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src='https://avatars.githubusercontent.com/u/84982384?v=4' />
+          <Avatar src={author.avatarUrl} />
 
           <div className={styles.authorInfo}>
-            <strong>Marcos Sales</strong>
-            <span>Front End Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
-        <time title="11 de Maio de 2023" dataTime="2023-05-11 23:12">
-          Publicado a 1 hora
+        <time title={publisheAtDateFormatted} dataTime={publisheAt.toISOString()}>
+          {publisheAtDateRelativeToNow}
         </time>
       </header>
+
+      <div className={styles.content}>
+        {content.map(line=> {
+          if(line.type === 'paragraph'){
+            return <p>{line.content}</p>
+          }else if(line.type === 'link'){
+            return <p><a href="#">{line.content}</a></p>
+          }
+        })
+          
+        }
+      </div>
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
