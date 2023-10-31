@@ -3,12 +3,13 @@ import ptBR from 'date-fns/locale/pt-BR'
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./avatar"
-import React from "react"
-import { Link } from 'phosphor-react'
-
-
+import React, { useState } from "react"
 
 export default function Post({author, content, publisheAt}) {
+  const [comments, setComments] = useState([])
+
+  const [newCommentText, setNewCommentText] = useState('')
+
   const publisheAtDateFormatted = format(publisheAt, "d 'de' LLLL 'ás' HH:mm'h'", {
     locale: ptBR,
   })
@@ -17,6 +18,18 @@ export default function Post({author, content, publisheAt}) {
     locale: ptBR,
     addSuffix: true,
   })
+
+  function handleCommentClick(){
+    event.preventDefault()
+    const newCommentValue = event.target.comment.value
+    setComments([...comments,newCommentValue])
+    setNewCommentText('')
+  }
+
+  function handleNewCommentChange(){
+    //aqui eu não preciso usar e posso usar o event
+    setNewCommentText(event.target.value)
+  }
 
   return (
     <article className={styles.post}>
@@ -45,19 +58,25 @@ export default function Post({author, content, publisheAt}) {
           
         }
       </div>
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCommentClick} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea placeholder="deixe seu comentário" />
+        <textarea
+        onChange={handleNewCommentChange}
+        name="comment"
+        value={newCommentText}
+        placeholder="deixe seu comentário" />
         <footer>
           <button type="submit">Comentar</button>
         </footer>
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {
+          comments.map((comment) => {
+            return <Comment  content={comment}/>
+          })
+        }
       </div>
     </article>
   )

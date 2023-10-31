@@ -2,7 +2,7 @@ import { ThumbsUp, Trash } from "phosphor-react"
 import styles from "./Comment.module.css"
 import { Avatar } from "./avatar"
 
-export function Comment() {
+export function Comment({content}) {
   return (
     <div className={styles.comment}>
       <Avatar hasBorder={false} src="https://i0.wp.com/techwek.com/wp-content/uploads/2020/12/bem-aleatorio..jpg?w=564&ssl=1" alt="" />
@@ -20,7 +20,7 @@ export function Comment() {
               <Trash size={22} />
             </button>
           </header>
-          <p>Muito bem Marcão, voa mlk!🪁 </p>
+          <p>{content}</p>
         </div>
         <footer>
           <button>
