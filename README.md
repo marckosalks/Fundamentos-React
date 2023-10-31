@@ -1,4 +1,4 @@
-# Fundamentos React
+# Fundamentos React 🚀
 
 ## 🤙 Criei esse repositório com o intuito de evoluir meus conhecimentos em React Next e Html e Css ⚛
 
