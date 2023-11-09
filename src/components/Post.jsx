@@ -7,8 +7,10 @@ import React, { useState } from "react"
 
 export default function Post({author, content, publisheAt}) {
   const [comments, setComments] = useState([])
-
   const [newCommentText, setNewCommentText] = useState('')
+  const  isNewCommentEmpty =  newCommentText.length === 0
+
+  console.log(newCommentText)
 
   const publisheAtDateFormatted = format(publisheAt, "d 'de' LLLL 'ás' HH:mm'h'", {
     locale: ptBR,
@@ -28,6 +30,7 @@ export default function Post({author, content, publisheAt}) {
 
   function handleNewCommentChange(){
     //aqui eu não preciso usar e posso usar o event
+    event.target.setCustomValidity('')
     setNewCommentText(event.target.value)
   }
 
@@ -38,6 +41,10 @@ export default function Post({author, content, publisheAt}) {
     })
 
     setComments(commentsWithoutDeleteOne)
+  }
+
+  function handleNewCommentIncalid(){
+    event.target.setCustomValidity('Esse campo é obrigatório!')
   }
 
   return (
@@ -74,9 +81,11 @@ export default function Post({author, content, publisheAt}) {
         onChange={handleNewCommentChange}
         name="comment"
         value={newCommentText}
-        placeholder="deixe seu comentário" />
+        placeholder="deixe seu comentário" 
+        required // quando uma propriedade true por padrão não precisamos passar valor
+        onInvalid={handleNewCommentIncalid}/>
         <footer>
-          <button type="submit">Comentar</button>
+          <button disabled={isNewCommentEmpty} type="submit">Comentar</button>
         </footer>
       </form>
 

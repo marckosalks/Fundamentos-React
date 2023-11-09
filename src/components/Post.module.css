@@ -101,6 +101,11 @@
   color: var(--gray-800);
 }
 
+.commentForm button:disabled{
+  opacity: 0.7;
+   cursor: not-allowed;
+}
+
 .commentList {
   margin-top: 2rem;
 }
