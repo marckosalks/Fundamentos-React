@@ -1,14 +1,33 @@
-import { format, formatDistanceToNow } from 'date-fns' 
+import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import styles from "./Post.module.css"
 import { Comment } from "./Comment"
 import { Avatar } from "./avatar"
-import React, { useState } from "react"
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
 
-export default function Post({author, content, publisheAt}) {
-  const [comments, setComments] = useState([])
+type Author = {
+  name: string
+  role: string
+  avatarUrl: string
+}
+
+export type Content = {
+  type: 'paragraph' | 'link'
+  content: string
+}
+
+export type PostProps = {
+  author: Author
+  content: Content[]
+  publisheAt: number
+}
+
+
+export default function Post({ author, content, publisheAt }: PostProps) {
+  const [comments, setComments] = useState([
+    'Post incrível cara, meus parabéns !'
+  ])
   const [newCommentText, setNewCommentText] = useState('')
-  const  isNewCommentEmpty =  newCommentText.length === 0
 
   console.log(newCommentText)
 
@@ -21,20 +40,22 @@ export default function Post({author, content, publisheAt}) {
     addSuffix: true,
   })
 
-  function handleCommentClick(){
+  function handleCommentClick(event: FormEvent) {
     event.preventDefault()
-    const newCommentValue = event.target.comment.value
-    setComments([...comments,newCommentValue])
+
+    //esse codigo esta estranhão
+    //const newCommentValue = event.target.comment.value
+    setComments([...comments, newCommentText])
     setNewCommentText('')
   }
 
-  function handleNewCommentChange(){
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
     //aqui eu não preciso usar e posso usar o event
     event.target.setCustomValidity('')
     setNewCommentText(event.target.value)
   }
 
-  function deleteComment(commentToDelete){
+  function deleteComment(commentToDelete: string) {
     //fazer algo com o comentário
     const commentsWithoutDeleteOne = comments.filter(comment => {
       return comment !== commentToDelete;
@@ -43,9 +64,10 @@ export default function Post({author, content, publisheAt}) {
     setComments(commentsWithoutDeleteOne)
   }
 
-  function handleNewCommentIncalid(){
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity('Esse campo é obrigatório!')
   }
+  const isNewCommentEmpty = newCommentText.length === 0
 
   return (
     <article className={styles.post}>
@@ -58,32 +80,33 @@ export default function Post({author, content, publisheAt}) {
             <span>{author.role}</span>
           </div>
         </div>
-        <time title={publisheAtDateFormatted} dateTime={publisheAt.toISOString()}>
+        <time title={publisheAtDateFormatted} dateTime={publisheAt.toString()}>
           {publisheAtDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        {content.map(line=> {
-          if(line.type === 'paragraph'){
+        {content.map(line => {
+          if (line.type === 'paragraph') {
             return <p key={line.content}>{line.content}</p>
-          }else if(line.type === 'link'){
+          } else if (line.type === 'link') {
             return <p key={line.content}><a href="#">{line.content}</a></p>
           }
         })
-          
+
         }
       </div>
       <form onSubmit={handleCommentClick} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
         <textarea
-        onChange={handleNewCommentChange}
-        name="comment"
-        value={newCommentText}
-        placeholder="deixe seu comentário" 
-        required // quando uma propriedade true por padrão não precisamos passar valor
-        onInvalid={handleNewCommentIncalid}/>
+          name="comment"
+          placeholder="Deixe seu comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required />
+        {/* // quando uma propriedade true por padrão não precisamos passar valor */}
         <footer>
           <button disabled={isNewCommentEmpty} type="submit">Comentar</button>
         </footer>
@@ -93,11 +116,11 @@ export default function Post({author, content, publisheAt}) {
         {
           comments.map((comment) => {
             return (
-              <Comment 
-                key={comment} 
+              <Comment
+                key={comment}
                 content={comment}
-                onDeleteComment={deleteComment}/>
-                // usamos esse on para dizer quando acontecer
+                onDeleteComment={deleteComment} />
+              // usamos esse on para dizer quando acontecer
             )
           })
         }
