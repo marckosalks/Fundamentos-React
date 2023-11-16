@@ -25,7 +25,12 @@ export function Comment({ content, onDeleteComment }: CommentProps) {
 
   return (
     <div className={styles.comment}>
-      <Avatar hasBorder={false} src="https://i0.wp.com/techwek.com/wp-content/uploads/2020/12/bem-aleatorio..jpg?w=564&ssl=1" alt="" />
+      <Avatar
+        hasBorder={false}
+        src="https://i0.wp.com/techwek.com/wp-content/uploads/2020/12/bem-aleatorio..jpg?w=564&ssl=1"
+        alt=""
+
+      />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>

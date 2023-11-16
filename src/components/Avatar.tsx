@@ -1,20 +1,21 @@
+import { ImgHTMLAttributes } from 'react'
 import styles from './Avatar.module.css'
 
-type AvatarProps = {
-  hasBorder?: boolean
-  src: string
-  alt?: string
+type AvatarProps = ImgHTMLAttributes<HTMLImageElement> & {
+  hasBorder?: boolean;
 }
 
 //usando desestruturação nas propriedades
 //valores default
-export function Avatar({ hasBorder = true, src, alt }: AvatarProps) {
+//extenção typescript
+//rest operator ==  resto das propriedades
+export function Avatar({ hasBorder = true, ...props }: AvatarProps) {
   return (
     /*aplicando renderização condicional*/
     <img
       className={hasBorder ? styles.avatarWithBorder : styles.avatar}
-      src={src}
-      alt={alt}
+      // spread operator == pego cada elemento e passo como atributo
+      {...props}
     />
   )
 }
